@@ -1,2 +1,3 @@
 # rust-playground
-My playground for throw-away, not necessarily useful, Rust programs 
+
+> My playground for throw-away, not necessarily useful, Rust programs.

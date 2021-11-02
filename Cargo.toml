@@ -1,0 +1,12 @@
+[package]
+name = "playground"
+version = "0.1.0"
+authors = ["Rafael Varago <varago.rafael@gmail.com>"]
+edition = "2021"
+
+[workspace]
+members = [
+    "partition",
+]
+
+[dependencies]
