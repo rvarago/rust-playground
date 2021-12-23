@@ -1,3 +1,5 @@
+//! A `Reader<E, A>` is sort-of a glorified `E -> A` with a nice way to pass `E` around implicitly.
+
 pub struct Reader<E, A> {
     run: Box<dyn FnOnce(&E) -> A>,
 }

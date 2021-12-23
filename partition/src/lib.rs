@@ -1,3 +1,5 @@
+//! A set of partition algorithms, where we split `Vec<A>` according to a predicate `A -> bool`.
+
 pub mod predicate {
     pub fn partition<P, A>(input: Vec<A>, pred: P) -> (Vec<A>, Vec<A>)
     where
