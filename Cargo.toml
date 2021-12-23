@@ -1,5 +1,6 @@
 [package]
 name = "playground"
+description = "A collection of half-baked, likely buggy, throw-away experiments"
 version = "0.1.0"
 authors = ["Rafael Varago <varago.rafael@gmail.com>"]
 edition = "2021"
