@@ -13,3 +13,7 @@ version = "0.1.0"
 [[package]]
 name = "reader"
 version = "0.1.0"
+
+[[package]]
+name = "sized_vector"
+version = "0.1.0"

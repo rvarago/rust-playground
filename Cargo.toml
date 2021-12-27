@@ -9,6 +9,7 @@ edition = "2021"
 members = [
     "partition",
     "reader",
+    "sized_vector",
 ]
 
 [dependencies]
