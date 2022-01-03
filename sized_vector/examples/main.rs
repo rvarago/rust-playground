@@ -20,10 +20,10 @@ fn main() {
     // xs.zip(ys);
     // would fail as the lengths don't match up (i.e. Succ<Succ<Zero>> != Succ<Zero>).
     // but if we push another element to `ys`, then the call succeeds as the lengths are the same.
-    let zs = xs.zip(ys.push("b".to_owned()));
+    let zs: IVec<Succ<Succ<Zero>>, (String, String)> = xs.zip(ys.push("b".to_owned()));
 
     // An attempt to call:
     // let a = IVec::<_, i32>::default().first();
     // would fail as there's no method named `first()` for an empty vector (i.e. IVec<Zero, A>).
-    let b = IVec::default().push(1).first();
+    let b: &i32 = IVec::default().push(1).first();
 }
