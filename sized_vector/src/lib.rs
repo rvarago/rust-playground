@@ -6,3 +6,5 @@
 
 pub mod ivec;
 pub mod nat;
+
+pub use crate::ivec::IVec;

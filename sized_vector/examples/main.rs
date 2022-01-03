@@ -1,6 +1,6 @@
 use sized_vector::{
-    ivec::IVec,
     nat::{Succ, Zero},
+    IVec,
 };
 
 #[allow(unused_variables)]
