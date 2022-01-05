@@ -3,6 +3,10 @@
 version = 3
 
 [[package]]
+name = "hlist"
+version = "0.1.0"
+
+[[package]]
 name = "partition"
 version = "0.1.0"
 
