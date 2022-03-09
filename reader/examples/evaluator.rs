@@ -2,15 +2,16 @@ use reader::Reader;
 use std::collections::HashMap;
 
 fn main() {
-    let expr = Expr::cond(
-        Expr::var("x".into()),
-        Expr::add(Expr::lit(1), Expr::var("y".into())),
-        Expr::bool(false),
+    let expr = Expr::let_in(
+        "y".into(),
+        Expr::add(Expr::lit(1), Expr::lit(2)),
+        Expr::cond(
+            Expr::var("x".into()),
+            Expr::add(Expr::lit(100), Expr::var("y".into())),
+            Expr::bool(false),
+        ),
     );
-    let env = Env::from_iter(vec![
-        ("x".into(), Value::Bool(true)),
-        ("y".into(), Value::Lit(2)),
-    ]);
+    let env = Env::from_iter(vec![("x".into(), Value::Bool(true))]);
     let r = expr.eval().run_with(&env);
 
     println!("eval = {:?}", r)
@@ -24,6 +25,7 @@ enum Expr {
     Bool(bool),
     Var(Ident),
     Add(BoxedExpr, BoxedExpr),
+    LetIn(Ident, BoxedExpr, BoxedExpr),
     Cond(BoxedExpr, BoxedExpr, BoxedExpr),
 }
 
@@ -53,7 +55,11 @@ impl Expr {
     }
 
     fn add(l: Expr, r: Expr) -> Self {
-        Self::Add(Box::new(l), Box::new(r))
+        Self::Add(BoxedExpr::new(l), BoxedExpr::new(r))
+    }
+
+    fn let_in(n: Ident, h: Expr, b: Expr) -> Self {
+        Self::LetIn(n, BoxedExpr::new(h), BoxedExpr::new(b))
     }
 
     fn cond(c: Expr, t: Expr, e: Expr) -> Self {
@@ -69,6 +75,16 @@ impl Expr {
             Add(l, r) => l
                 .eval()
                 .and_then(|l| r.eval().map(move |r| lift2(l, r, Value::add).flatten())),
+            LetIn(n, h, b) => h.eval().and_then(|h| {
+                h.map(|h| {
+                    b.eval().local(move |e| {
+                        let mut e = e.clone();
+                        e.insert(n, h);
+                        e
+                    })
+                })
+                .unwrap_or_else(|| Eval::pure(None))
+            }),
             Cond(c, t, e) => c.eval().and_then(|c| Self::conditional(c, t, e)),
         }
     }
