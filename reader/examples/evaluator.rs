@@ -83,7 +83,7 @@ impl Expr {
                         e
                     })
                 })
-                .unwrap_or_else(|| Eval::pure(None))
+                .unwrap_or_else(Self::wrap_failure)
             }),
             Cond(c, t, e) => c.eval().and_then(|c| Self::conditional(c, t, e)),
         }
@@ -108,12 +108,16 @@ impl Expr {
         match c {
             Some(Value::Bool(true)) => t.eval(),
             Some(Value::Bool(false)) => e.eval(),
-            _ => Eval::pure(None),
+            _ => Self::wrap_failure(),
         }
     }
 
     fn wrap(value: Value) -> Eval {
         Eval::pure(value.into())
+    }
+
+    fn wrap_failure() -> Eval {
+        Eval::pure(None)
     }
 }
 
