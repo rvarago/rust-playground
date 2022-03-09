@@ -68,6 +68,15 @@ impl<E, A> Reader<E, A> {
     {
         self.remap(|| ())
     }
+
+    pub fn local<F>(self, f: F) -> Reader<E, A>
+    where
+        E: 'static,
+        A: 'static,
+        F: FnOnce(&E) -> E + 'static,
+    {
+        Self::new(move |e| self.run_with(&f(e)))
+    }
 }
 
 impl<F, E, A> From<F> for Reader<E, A>
